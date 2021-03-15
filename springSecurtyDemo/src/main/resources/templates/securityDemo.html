@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div sec:authorize="isAuthenticated()">
+    <p>已登录</p>
+    <p>登录名：<span sec:authentication="name"></span></p>
+    <p>Password：<span sec:authentication="principal.password"></span></p>
+    权限和角色：<div sec:authentication="principal.authorities"></div> <!-- works fine -->
+    <p>远程访问地址 ：<span sec:authentication="details.remoteAddress"></span></p>
+    <p>Name：<span sec:authentication="principal.username"></span></p>
+<!--    <p>Status：<span sec:authentication="principal.status"></span></p>-->
+    <p>sessionId：<span sec:authentication="details.sessionId"></span></p>
+    <p>拥有的角色：
+        <span sec:authorize="hasRole('ROLE_ADMIN')">管理员</span>
+        <span sec:authorize="hasRole('ROLE_USER')">用户</span>
+    </p>
+<!--
+  已登录
+
+登录名：admin
+
+Password：
+
+权限和角色：
+[/main.html, ROLE_abc, admin, normal]
+远程访问地址 ：0:0:0:0:0:0:0:1
+
+Name：admin
+
+sessionId：FFB913EF7AAC4F7356D1D3FE5BB41FCD
+
+拥有的角色：
+
+未登录
+
+  -->
+<p>通过权限判断按钮是否显示</p>
+    <button sec:authorize="hasAuthority('/insert')">新增/insert</button>
+    <button sec:authorize="hasAuthority('/update')">修改/update</button>
+    <button sec:authorize="hasAuthority('/delete')">删除/delete</button>
+    <button sec:authorize="hasAuthority('/select')">查询/select</button>
+<p>通过角色判断按钮是否显示</p>
+    <button sec:authorize="hasRole('admin')">新增admin</button>
+    <button sec:authorize="hasRole('admin')">修改admin</button>
+    <button sec:authorize="hasRole('superadmin')">删除superadmin</button>
+    <button sec:authorize="hasRole('superadmin')">查询superadmin</button>
+</div>
+
+</body>
+</html>
